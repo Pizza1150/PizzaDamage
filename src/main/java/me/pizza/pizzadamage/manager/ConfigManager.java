@@ -1,0 +1,57 @@
+package me.pizza.pizzadamage.manager;
+
+import lombok.Getter;
+import me.pizza.pizzadamage.PizzaDamage;
+
+import java.io.File;
+import java.text.DecimalFormat;
+
+@Getter
+public class ConfigManager {
+
+    private final PizzaDamage plugin;
+
+    private boolean splitHologram;
+    private boolean useCustomFont;
+    private char space;
+
+    private final DecimalFormat decimalFormat = new DecimalFormat("#");
+
+    private final char[] normalCharacters = new char[10];
+    private final char[] critCharacters = new char[10];
+    private final char[] skillCharacters = new char[10];
+
+    public ConfigManager(PizzaDamage plugin) {
+        this.plugin = plugin;
+        reload();
+    }
+
+    public void reload() {
+        File file = new File(plugin.getDataFolder(), "config.yml");
+        if (!file.exists()) plugin.saveDefaultConfig();
+
+        plugin.reloadConfig();
+
+        splitHologram = plugin.getConfig().getBoolean("split-hologram");
+        useCustomFont = plugin.getConfig().getBoolean("custom-font.enabled");
+        // decimalFormat =
+
+        String spaceChar = plugin.getConfig().getString("custom-font.space");
+        space = spaceChar != null && !spaceChar.isEmpty() ? space = spaceChar.charAt(0) : ' ';
+
+        for (int i = 0; i < 10; i++) {
+            String normalChar = plugin.getConfig().getString("custom-font.normal." + i);
+            String critChar = plugin.getConfig().getString("custom-font.crit." + i);
+            String skillChar = plugin.getConfig().getString("custom-font.skill." + i);
+
+            if (normalChar != null && !normalChar.isEmpty()) normalCharacters[i] = normalChar.charAt(0);
+            else normalCharacters[i] = (char) ('0' + i);
+
+            if (critChar != null && !critChar.isEmpty()) critCharacters[i] = critChar.charAt(0);
+            else critCharacters[i] = (char) ('0' + i);
+
+            if (skillChar != null && !skillChar.isEmpty()) skillCharacters[i] = skillChar.charAt(0);
+            else skillCharacters[i] = (char) ('0' + i);
+        }
+    }
+}

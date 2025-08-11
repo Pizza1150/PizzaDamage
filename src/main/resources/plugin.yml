@@ -1,0 +1,14 @@
+name: PizzaDamage
+version: '1.0'
+main: me.pizza.pizzadamage.PizzaDamage
+api-version: '1.21'
+author: Pizza
+depend: [MythicLib, packetevents]
+
+commands:
+  pizzadamage:
+    permission: pizzadamage.admin
+
+permissions:
+  pizzadamage.admin:
+      default: op
