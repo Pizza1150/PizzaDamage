@@ -26,8 +26,7 @@ public class FontManager {
                 }
                 
                 firstDigitFound = true;
-            } 
-            else sb.append(c);
+            } else sb.append(c);
         }
         return sb.toString();
     }

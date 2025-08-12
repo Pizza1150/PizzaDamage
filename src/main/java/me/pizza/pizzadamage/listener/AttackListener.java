@@ -1,5 +1,13 @@
 package me.pizza.pizzadamage.listener;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
 import io.lumine.mythic.lib.api.event.AttackUnregisteredEvent;
 import io.lumine.mythic.lib.damage.DamageMetadata;
 import io.lumine.mythic.lib.damage.DamageType;
@@ -8,14 +16,6 @@ import me.pizza.pizzadamage.PizzaDamage;
 import me.pizza.pizzadamage.manager.FontManager.FontType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 public class AttackListener implements Listener {
 
@@ -29,8 +29,9 @@ public class AttackListener implements Listener {
     public void onAttack(AttackUnregisteredEvent ev) {
         if (!ev.getAttack().isPlayer()) return;
 
+        DamageMetadata meta = ev.getDamage();
+        
         if (!plugin.getConfigManager().isSplitHologram()) {
-            DamageMetadata meta = ev.getDamage();
             String damage = plugin.getConfigManager().getDecimalFormat().format(meta.getDamage());
             
             StringBuilder builder = new StringBuilder();
@@ -67,7 +68,6 @@ public class AttackListener implements Listener {
         }
 
          else {
-             DamageMetadata meta = ev.getDamage();
              meta.getPackets().forEach(packet -> {
                  String damage = plugin.getConfigManager().getDecimalFormat().format(packet.getFinalValue());
                  Element element = packet.getElement();
