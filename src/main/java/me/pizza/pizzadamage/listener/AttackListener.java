@@ -1,13 +1,5 @@
 package me.pizza.pizzadamage.listener;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-
 import io.lumine.mythic.lib.api.event.AttackUnregisteredEvent;
 import io.lumine.mythic.lib.damage.DamageMetadata;
 import io.lumine.mythic.lib.damage.DamageType;
@@ -16,6 +8,14 @@ import me.pizza.pizzadamage.PizzaDamage;
 import me.pizza.pizzadamage.manager.FontManager.FontType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class AttackListener implements Listener {
 
@@ -44,7 +44,7 @@ public class AttackListener implements Listener {
                     if (i == elements.size() - 1) builder.append("&f");  // Last element
                     else builder.append(" ");
                 }
-                builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
+                builder.append(plugin.getFontManager().toCustomFont(damage, FontType.ELEMENT));
             }
 
             else if (meta.hasType(DamageType.SKILL)) {
@@ -76,7 +76,7 @@ public class AttackListener implements Listener {
 
                  if (element != null) {
                      builder.append(element.getColor()).append(element.getLoreIcon()).append("&f");
-                     builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
+                     builder.append(plugin.getFontManager().toCustomFont(damage, FontType.ELEMENT));
                  }
 
                  else if (packet.hasType(DamageType.SKILL)) {

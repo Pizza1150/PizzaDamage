@@ -22,6 +22,7 @@ public class FontManager {
                 switch (fontType) {
                     case CRIT -> sb.append(config.getCritCharacters()[digit]);
                     case SKILL -> sb.append(config.getSkillCharacters()[digit]);
+                    case ELEMENT -> sb.append(config.getElementCharacters()[digit]);
                     default -> sb.append(config.getNormalCharacters()[digit]);
                 }
                 
@@ -34,6 +35,7 @@ public class FontManager {
     public enum FontType {
         NORMAL, 
         CRIT, 
-        SKILL
+        SKILL,
+        ELEMENT
     }
 }

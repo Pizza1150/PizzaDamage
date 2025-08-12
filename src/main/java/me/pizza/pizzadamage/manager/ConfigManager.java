@@ -22,6 +22,7 @@ public class ConfigManager {
     private final char[] normalCharacters = new char[10];
     private final char[] critCharacters = new char[10];
     private final char[] skillCharacters = new char[10];
+    private final char[] elementCharacters = new char[10];
 
     public ConfigManager(PizzaDamage plugin) {
         this.plugin = plugin;
@@ -46,6 +47,7 @@ public class ConfigManager {
             String normalChar = plugin.getConfig().getString("custom-font.normal." + i);
             String critChar = plugin.getConfig().getString("custom-font.crit." + i);
             String skillChar = plugin.getConfig().getString("custom-font.skill." + i);
+            String elementChar = plugin.getConfig().getString("custom-font.element." + i);
 
             if (normalChar != null && !normalChar.isEmpty()) normalCharacters[i] = normalChar.charAt(0);
             else normalCharacters[i] = (char) ('0' + i);
@@ -55,6 +57,9 @@ public class ConfigManager {
 
             if (skillChar != null && !skillChar.isEmpty()) skillCharacters[i] = skillChar.charAt(0);
             else skillCharacters[i] = (char) ('0' + i);
+
+            if (elementChar != null && !elementChar.isEmpty()) elementCharacters[i] = elementChar.charAt(0);
+            else elementCharacters[i] = (char) ('0' + i);
         }
     }
 }
