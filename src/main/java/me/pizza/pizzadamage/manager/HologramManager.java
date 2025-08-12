@@ -1,5 +1,13 @@
 package me.pizza.pizzadamage.manager;
 
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
+import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
+import lombok.Getter;
+import me.pizza.pizzadamage.PizzaDamage;
+import me.pizza.pizzadamage.api.event.CreateHologramEvent;
+import me.pizza.pizzadamage.data.HologramData;
+import net.kyori.adventure.text.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,7 +17,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
@@ -19,13 +26,6 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDe
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityTeleport;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
-
-import io.github.retrooper.packetevents.util.SpigotConversionUtil;
-import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
-import lombok.Getter;
-import me.pizza.pizzadamage.PizzaDamage;
-import me.pizza.pizzadamage.data.HologramData;
-import net.kyori.adventure.text.Component;
 
 public class HologramManager {
 
@@ -39,46 +39,49 @@ public class HologramManager {
     private final List<HologramData> holograms = new ArrayList<>();
 
     public void spawn(List<Player> players, Entity entity, Component text) {
-            Bukkit.getScheduler().runTaskAsynchronously(PizzaDamage.getPlugin(), () -> {
-                int entityId = SpigotReflectionUtil.generateEntityId();
-                List<User> users = players
-                        .stream()
-                        .map(p -> PacketEvents.getAPI().getPlayerManager().getUser(p))
-                        .toList();
+        CreateHologramEvent event = new CreateHologramEvent(text);
+        Bukkit.getPluginManager().callEvent(event);
 
-                Bukkit.getScheduler().runTask(PizzaDamage.getPlugin(), () -> {
-                    Location spawnLocation = getSpawnLocation(entity);
-                    HologramData hologram = new HologramData(entityId, users);
-                    holograms.add(hologram);
+        Bukkit.getScheduler().runTaskAsynchronously(PizzaDamage.getPlugin(), () -> {
+            int entityId = SpigotReflectionUtil.generateEntityId();
+            List<User> users = players
+                    .stream()
+                    .map(p -> PacketEvents.getAPI().getPlayerManager().getUser(p))
+                    .toList();
 
-                    Bukkit.getScheduler().runTaskAsynchronously(PizzaDamage.getPlugin(), () -> {
-                        users.forEach(user -> {
-                            user.sendPacket(new WrapperPlayServerSpawnEntity(
-                                    entityId, UUID.randomUUID(),
-                                    EntityTypes.TEXT_DISPLAY,
-                                    SpigotConversionUtil.fromBukkitLocation(spawnLocation),
-                                    0F, 0, null
-                            ));
+            Bukkit.getScheduler().runTask(PizzaDamage.getPlugin(), () -> {
+                Location spawnLocation = getSpawnLocation(entity);
+                HologramData hologram = new HologramData(entityId, users);
+                holograms.add(hologram);
 
-                            user.sendPacket(new WrapperPlayServerEntityMetadata(entityId, List.of(
-                                    new EntityData<>(23, EntityDataTypes.ADV_COMPONENT, text),
-                                    new EntityData<>(10, EntityDataTypes.INT, 50),
-                                    new EntityData<>(15, EntityDataTypes.BYTE, (byte) 3),
-                                    new EntityData<>(25, EntityDataTypes.INT, 0x00000000),
-                                    new EntityData<>(16, EntityDataTypes.INT, (15 << 4) | (15 << 20))
-                            )));
+                Bukkit.getScheduler().runTaskAsynchronously(PizzaDamage.getPlugin(), () -> {
+                    users.forEach(user -> {
+                        user.sendPacket(new WrapperPlayServerSpawnEntity(
+                                entityId, UUID.randomUUID(),
+                                EntityTypes.TEXT_DISPLAY,
+                                SpigotConversionUtil.fromBukkitLocation(spawnLocation),
+                                0F, 0, null
+                        ));
 
-                            user.sendPacket(new WrapperPlayServerEntityTeleport(
-                                    entityId,
-                                    SpigotConversionUtil.fromBukkitLocation(spawnLocation.clone().add(0, 4, 0)),
-                                    true
-                            ));
-                        });
-                        // TODO: Check if this should be global task
-                        Bukkit.getScheduler().runTaskLater(PizzaDamage.getPlugin(), () -> removeHologram(hologram), 60L);
+                        user.sendPacket(new WrapperPlayServerEntityMetadata(entityId, List.of(
+                                new EntityData<>(23, EntityDataTypes.ADV_COMPONENT, event.getText()),
+                                new EntityData<>(10, EntityDataTypes.INT, 50),
+                                new EntityData<>(15, EntityDataTypes.BYTE, (byte) 3),
+                                new EntityData<>(25, EntityDataTypes.INT, 0x00000000),
+                                new EntityData<>(16, EntityDataTypes.INT, (15 << 4) | (15 << 20))
+                        )));
+
+                        user.sendPacket(new WrapperPlayServerEntityTeleport(
+                                entityId,
+                                SpigotConversionUtil.fromBukkitLocation(spawnLocation.clone().add(0, 4, 0)),
+                                true
+                        ));
                     });
+                    // TODO: Check if this should be global task
+                    Bukkit.getScheduler().runTaskLater(PizzaDamage.getPlugin(), () -> removeHologram(hologram), 60L);
                 });
             });
+        });
     }
 
     private void removeHologram(HologramData hologram) {
