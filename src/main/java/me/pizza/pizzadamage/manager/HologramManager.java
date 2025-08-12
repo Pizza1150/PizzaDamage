@@ -39,8 +39,11 @@ public class HologramManager {
     private final List<HologramData> holograms = new ArrayList<>();
 
     public void spawn(List<Player> players, Entity entity, Component text) {
+        if (players == null || players.isEmpty() || entity == null || text == null) return;
+
         CreateHologramEvent event = new CreateHologramEvent(text);
         Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
 
         Bukkit.getScheduler().runTaskAsynchronously(PizzaDamage.getPlugin(), () -> {
             int entityId = SpigotReflectionUtil.generateEntityId();

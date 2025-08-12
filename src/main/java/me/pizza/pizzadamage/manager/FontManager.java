@@ -11,25 +11,25 @@ public class FontManager {
     public String toCustomFont(String number, FontType fontType) {
         if (!config.isUseCustomFont()) return number;
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         boolean firstDigitFound = false;
 
         for (char c : number.toCharArray()) {
             if (c >= '0' && c <= '9') {
-                if (firstDigitFound) sb.append(config.getSpace());
+                if (firstDigitFound) builder.append(config.getSpace());
                 int digit = c - '0';
 
                 switch (fontType) {
-                    case CRIT -> sb.append(config.getCritCharacters()[digit]);
-                    case SKILL -> sb.append(config.getSkillCharacters()[digit]);
-                    case ELEMENT -> sb.append(config.getElementCharacters()[digit]);
-                    default -> sb.append(config.getNormalCharacters()[digit]);
+                    case CRIT -> builder.append(config.getCritCharacters()[digit]);
+                    case SKILL -> builder.append(config.getSkillCharacters()[digit]);
+                    case ELEMENT -> builder.append(config.getElementCharacters()[digit]);
+                    default -> builder.append(config.getNormalCharacters()[digit]);
                 }
                 
                 firstDigitFound = true;
-            } else sb.append(c);
+            } else builder.append(c);
         }
-        return sb.toString();
+        return builder.toString();
     }
 
     public enum FontType {

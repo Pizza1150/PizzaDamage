@@ -1,18 +1,14 @@
 hologram:
   # แยก hologram เมื่อดาเมจมีหลายประเภท
   split: false
-
   # โชว์ hologram ให้ทุกคนในระยะที่กำหนด
   show-to-all: true
   show-radius: 10
 
-
 custom-font:
   enabled: false
-
   # unicode เพื่อปรับระยะห่างของแต่ละตัวเลข
   space: ''
-
   # ดาเมจกายภาพ
   normal:
     '0': ''
@@ -25,7 +21,6 @@ custom-font:
     '7': ''
     '8': ''
     '9': ''
-
   # ดาเมจกายภาพคริติคอล
   crit:
     '0': ''
@@ -38,7 +33,6 @@ custom-font:
     '7': ''
     '8': ''
     '9': ''
-
   # ดาเมจสกิล
   skill:
     '0': ''
@@ -51,7 +45,6 @@ custom-font:
     '7': ''
     '8': ''
     '9': ''
-
   # ดาเมจธาตุ
   element:
     '0': ''
