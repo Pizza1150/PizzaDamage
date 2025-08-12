@@ -12,6 +12,8 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -29,57 +31,82 @@ public class AttackListener implements Listener {
 
         if (!plugin.getConfigManager().isSplitHologram()) {
             DamageMetadata meta = ev.getDamage();
-            String damage = plugin.getConfigManager().getDecimalFormat().format(ev.toBukkit().getDamage());
+            String damage = plugin.getConfigManager().getDecimalFormat().format(meta.getDamage());
             
-            StringBuilder rawBuilder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
             if (!meta.collectElements().isEmpty()) {
                 List<Element> elements = new ArrayList<>(meta.collectElements());
                 for (int i = 0; i < elements.size(); i++) {
                     Element element = elements.get(i);
-                    rawBuilder.append(element.getColor()).append(element.getLoreIcon());
-                    if (i == elements.size() - 1) rawBuilder.append("&f");  // Last element
-                    else rawBuilder.append(" ");
+                    builder.append(element.getColor()).append(element.getLoreIcon());
+                    if (i == elements.size() - 1) builder.append("&f");  // Last element
+                    else builder.append(" ");
                 }
-                rawBuilder.append(plugin.getFontManager().toCustomFont(damage, FontType.NORMAL));
-            } 
-            
+                builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
+            }
+
             else if (meta.hasType(DamageType.SKILL)) {
-                rawBuilder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
+                builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
             } 
             
             else {
                 FontType fontType = meta.isWeaponCriticalStrike() ? FontType.CRIT : FontType.NORMAL;
-                rawBuilder.append(plugin.getFontManager().toCustomFont(damage, fontType));
+                builder.append(plugin.getFontManager().toCustomFont(damage, fontType));
             }
 
-            String rawText = rawBuilder.toString();
+            String rawText = builder.toString();
             Component component = LegacyComponentSerializer.legacyAmpersand().deserialize(rawText);
-            plugin.getHologramManager().spawn(ev.getAttack().getPlayer(), ev.getEntity(), component);
+
+            Player player = ev.getAttack().getPlayer();
+            if (plugin.getConfigManager().isShowToAllPlayers()) {
+                double radius = plugin.getConfigManager().getShowRadius();
+                List<Player> players = getPlayersAround(player, radius);
+                plugin.getHologramManager().spawn(players, ev.getEntity(), component);
+            } else plugin.getHologramManager().spawn(List.of(player), ev.getEntity(), component);
         }
 
-        // Split hologram
-//        ev.getDamage().getPackets().forEach(packet -> {
-//            String damage = decimalFormat.format(packet.getFinaldamage());
-//            Element element = packet.getElement();
-//
-//            String rawText;
-//            if (element != null) {
-//                String customdamage = plugin.getConfigManager().toCustomFont(damage, ConfigManager.FontType.SKILL);
-//                rawText = element.getColor() + element.getLoreIcon() + "&f" + customdamage;
-//
-//            } else if (packet.hasType(DamageType.SKILL)) {
-//                rawText = plugin.getConfigManager().toCustomFont(damage, ConfigManager.FontType.SKILL);
-//            }
-//
-//            else {
-//                boolean isCrit = ev.getDamage().isWeaponCriticalStrike();
-//                ConfigManager.FontType fontType = isCrit ? ConfigManager.FontType.CRIT : ConfigManager.FontType.NORMAL;
-//                rawText = plugin.getConfigManager().toCustomFont(damage, fontType);
-//            }
-//
-//            Component component = LegacyComponentSerializer.legacyAmpersand().deserialize(rawText);
-//            plugin.getHologramManager().spawn(ev.getPlayer(), ev.getEntity(), component);
-//        });
+         else {
+             DamageMetadata meta = ev.getDamage();
+             meta.getPackets().forEach(packet -> {
+                 String damage = plugin.getConfigManager().getDecimalFormat().format(packet.getFinalValue());
+                 Element element = packet.getElement();
+
+                 StringBuilder builder = new StringBuilder();
+
+                 if (element != null) {
+                     builder.append(element.getColor()).append(element.getLoreIcon()).append("&f");
+                     builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
+                 }
+
+                 else if (packet.hasType(DamageType.SKILL)) {
+                     builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
+                 }
+
+                 else {
+                     FontType fontType = meta.isWeaponCriticalStrike() ? FontType.CRIT : FontType.NORMAL;
+                     builder.append(plugin.getFontManager().toCustomFont(damage, fontType));
+                 }
+
+                 String rawText = builder.toString();
+                 Component component = LegacyComponentSerializer.legacyAmpersand().deserialize(rawText);
+
+                 Player player = ev.getAttack().getPlayer();
+                 if (plugin.getConfigManager().isShowToAllPlayers()) {
+                     double radius = plugin.getConfigManager().getShowRadius();
+                     List<Player> players = getPlayersAround(player, radius);
+                     plugin.getHologramManager().spawn(players, ev.getEntity(), component);
+                 } else plugin.getHologramManager().spawn(List.of(player), ev.getEntity(), component);
+             });
+         }
+    }
+
+    private List<Player> getPlayersAround(Player player, double radius) {
+        List<Player> players = new ArrayList<>();
+        for (Entity e : player.getNearbyEntities(radius, radius, radius)) {
+            if (e instanceof Player p) players.add(p);
+        }
+        players.add(player);
+        return players;
     }
 }

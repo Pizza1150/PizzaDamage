@@ -9,8 +9,7 @@ public class FontManager {
     }
 
     public String toCustomFont(String number, FontType fontType) {
-        if (!config.isUseCustomFont())
-            return number;
+        if (!config.isUseCustomFont()) return number;
 
         StringBuilder sb = new StringBuilder();
         boolean firstDigitFound = false;
@@ -25,6 +24,7 @@ public class FontManager {
                     case SKILL -> sb.append(config.getSkillCharacters()[digit]);
                     default -> sb.append(config.getNormalCharacters()[digit]);
                 }
+                
                 firstDigitFound = true;
             } 
             else sb.append(c);

@@ -12,6 +12,8 @@ public class ConfigManager {
     private final PizzaDamage plugin;
 
     private boolean splitHologram;
+    private boolean showToAllPlayers;
+    private double showRadius;
     private boolean useCustomFont;
     private char space;
 
@@ -32,9 +34,10 @@ public class ConfigManager {
 
         plugin.reloadConfig();
 
-        splitHologram = plugin.getConfig().getBoolean("split-hologram");
+        splitHologram = plugin.getConfig().getBoolean("hologram.split");
+        showToAllPlayers = plugin.getConfig().getBoolean("hologram.show-to-all");
+        showRadius = plugin.getConfig().getDouble("hologram.show-radius");
         useCustomFont = plugin.getConfig().getBoolean("custom-font.enabled");
-        // decimalFormat =
 
         String spaceChar = plugin.getConfig().getString("custom-font.space");
         space = spaceChar != null && !spaceChar.isEmpty() ? space = spaceChar.charAt(0) : ' ';

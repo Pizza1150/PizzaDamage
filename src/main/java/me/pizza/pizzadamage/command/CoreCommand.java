@@ -22,13 +22,19 @@ public class CoreCommand implements CommandExecutor, TabExecutor {
             commandSender.sendMessage("§aPizzaDamage reloaded");
             return true;
         }
+
+        else if (strings[0].equalsIgnoreCase("debug")) {
+            int n = PizzaDamage.getPlugin().getHologramManager().getHolograms().size();
+            commandSender.sendMessage("There is " + n + " holograms now");
+            return true;
+        }
         return true;
     }
 
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
-        if (strings.length == 1) return List.of("reload");
+        if (strings.length == 1) return List.of("reload", "debug");
         return List.of();
     }
 }
