@@ -11,18 +11,20 @@ public class ConfigManager {
 
     private final PizzaDamage plugin;
 
-    private boolean splitHologram;
-    private boolean showToAllPlayers;
-    private double showRadius;
-    private boolean useCustomFont;
-    private char space;
-
     private final DecimalFormat decimalFormat = new DecimalFormat("#");
 
     private final char[] normalCharacters = new char[10];
     private final char[] critCharacters = new char[10];
     private final char[] skillCharacters = new char[10];
     private final char[] elementCharacters = new char[10];
+
+    private double showRadius;
+
+    private boolean splitHologram;
+    private boolean showToAllPlayers;
+    private boolean useCustomFont;
+
+    private char space;
 
     public ConfigManager(PizzaDamage plugin) {
         this.plugin = plugin;
