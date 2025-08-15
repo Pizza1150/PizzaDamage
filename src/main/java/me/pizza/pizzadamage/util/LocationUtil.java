@@ -13,11 +13,6 @@ public class LocationUtil {
     private static final Random RANDOM = new Random();
 
     public static List<Player> getPlayersInRadius(Location location, double radius) {
-//        return location.getNearbyEntities(radius, radius, radius)
-//                .stream()
-//                .filter(e -> e instanceof Player)
-//                .map(e -> (Player) e)
-//                .toList();
         List<Player> players = new ArrayList<>();
         for (Entity e : location.getNearbyEntities(radius, radius, radius)) {
             if (e instanceof Player p) players.add(p);

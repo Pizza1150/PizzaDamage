@@ -1,6 +1,6 @@
+# Fabled Version
+
 hologram:
-  # แยก hologram เมื่อดาเมจมีหลายประเภท
-  split: false
   # โชว์ hologram ให้ทุกคนในระยะที่กำหนด
   show-to-all: true
   show-radius: 10
