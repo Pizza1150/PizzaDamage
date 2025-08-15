@@ -40,9 +40,11 @@ public class AttackListener implements Listener {
         if (players.isEmpty()) return;
 
         DamageMetadata meta = ev.getDamage();
+        double value = ev.toBukkit().getFinalDamage();
+        if (value <= 0.5) return;
 
         StringBuilder builder = new StringBuilder();
-        String damage = plugin.getConfigManager().getDecimalFormat().format(ev.toBukkit().getFinalDamage());
+        String damage = plugin.getConfigManager().getDecimalFormat().format(value);
 
         List<Element> elements = new ArrayList<>(meta.collectElements());
         if (!elements.isEmpty()) {
