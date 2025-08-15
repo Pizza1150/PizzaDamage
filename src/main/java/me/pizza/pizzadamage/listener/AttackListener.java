@@ -40,6 +40,7 @@ public class AttackListener implements Listener {
         if (players.isEmpty()) return;
 
         DamageMetadata meta = ev.getDamage();
+        if (ev.getDamage().getDamage() < 1) return;
 
         if (!plugin.getConfigManager().isSplitHologram()) {
             StringBuilder builder = new StringBuilder();
