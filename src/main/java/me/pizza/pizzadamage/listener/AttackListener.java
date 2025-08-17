@@ -41,7 +41,7 @@ public class AttackListener implements Listener {
 
         DamageMetadata meta = ev.getDamage();
         double value = ev.toBukkit().getFinalDamage();
-        if (value <= 0.5) return;
+        if (value < 1) return;
 
         StringBuilder builder = new StringBuilder();
         String damage = plugin.getConfigManager().getDecimalFormat().format(value);

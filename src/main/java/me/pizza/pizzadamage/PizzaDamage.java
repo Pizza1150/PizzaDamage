@@ -3,6 +3,7 @@ package me.pizza.pizzadamage;
 import lombok.Getter;
 import me.pizza.pizzadamage.command.CoreCommand;
 import me.pizza.pizzadamage.listener.AttackListener;
+import me.pizza.pizzadamage.listener.PlayerListener;
 import me.pizza.pizzadamage.manager.ConfigManager;
 import me.pizza.pizzadamage.manager.FontManager;
 import me.pizza.pizzadamage.manager.HologramManager;
@@ -32,6 +33,7 @@ public final class PizzaDamage extends JavaPlugin {
         getCommand("pizzadamage").setExecutor(new CoreCommand());
 
         getServer().getPluginManager().registerEvents(new AttackListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
     @Override

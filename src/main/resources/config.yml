@@ -1,5 +1,3 @@
-# Fabled Version
-
 hologram:
   # โชว์ hologram ให้ทุกคนในระยะที่กำหนด
   show-to-all: true
