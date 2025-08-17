@@ -88,6 +88,5 @@ public class HologramManager {
     public void removeAllHolograms() {
         List<HologramData> copy = new ArrayList<>(holograms);
         copy.forEach(this::removeHologram);
-        holograms.clear();
     }
 }

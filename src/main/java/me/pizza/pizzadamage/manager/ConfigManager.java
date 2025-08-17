@@ -18,11 +18,10 @@ public class ConfigManager {
     private final char[] skillCharacters = new char[10];
     private final char[] elementCharacters = new char[10];
 
-    private double showRadius;
-
-    private boolean splitHologram;
     private boolean showToAllPlayers;
     private boolean useCustomFont;
+
+    private double showRadius;
 
     private char space;
 
@@ -37,13 +36,12 @@ public class ConfigManager {
 
         plugin.reloadConfig();
 
-        splitHologram = plugin.getConfig().getBoolean("hologram.split");
         showToAllPlayers = plugin.getConfig().getBoolean("hologram.show-to-all");
         showRadius = plugin.getConfig().getDouble("hologram.show-radius");
         useCustomFont = plugin.getConfig().getBoolean("custom-font.enabled");
 
         String spaceChar = plugin.getConfig().getString("custom-font.space");
-        space = spaceChar != null && !spaceChar.isEmpty() ? space = spaceChar.charAt(0) : ' ';
+        space = spaceChar != null && !spaceChar.isEmpty() ? spaceChar.charAt(0) : ' ';
 
         for (int i = 0; i < 10; i++) {
             String normalChar = plugin.getConfig().getString("custom-font.normal." + i);
