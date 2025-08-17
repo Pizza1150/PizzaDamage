@@ -40,7 +40,7 @@ public class AttackListener implements Listener {
         if (players.isEmpty()) return;
 
         double value = ev.toBukkit().getFinalDamage();
-        if (value < 1) return;
+        if (value < plugin.getConfigManager().getMinDamage()) return;
 
         StringBuilder builder = new StringBuilder();
         String damage = plugin.getConfigManager().getDecimalFormat().format(value);

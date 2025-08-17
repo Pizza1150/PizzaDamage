@@ -28,13 +28,18 @@ public class CoreCommand implements CommandExecutor, TabExecutor {
             commandSender.sendMessage("There is " + n + " holograms now");
             return true;
         }
+
+        else if (strings[0].equalsIgnoreCase("clear")) {
+            PizzaDamage.getPlugin().getHologramManager().removeAllHolograms();
+            commandSender.sendMessage("Cleared all damage holograms!");
+            return true;
+        }
         return true;
     }
 
-
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
-        if (strings.length == 1) return List.of("reload", "debug");
+        if (strings.length == 1) return List.of("reload", "debug", "clear");
         return List.of();
     }
 }

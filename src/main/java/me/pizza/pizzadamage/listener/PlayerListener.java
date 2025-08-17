@@ -16,8 +16,6 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent ev) {
-        plugin.getHologramManager().getHolograms().forEach(holo -> {
-            holo.users().removeIf(user -> user.getUUID().equals(ev.getPlayer().getUniqueId()));
-        });
+        plugin.getHologramManager().clearPlayerHolograms(ev.getPlayer());
     }
 }

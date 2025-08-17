@@ -17,11 +17,13 @@ public class ConfigManager {
     private final char[] critCharacters = new char[10];
     private final char[] skillCharacters = new char[10];
     private final char[] elementCharacters = new char[10];
+    private final char[] dotCharacters = new char[10];
 
     private boolean showToAllPlayers;
     private boolean useCustomFont;
 
     private double showRadius;
+    private double minDamage;
 
     private char space;
 
@@ -37,8 +39,9 @@ public class ConfigManager {
         plugin.reloadConfig();
 
         showToAllPlayers = plugin.getConfig().getBoolean("hologram.show-to-all");
-        showRadius = plugin.getConfig().getDouble("hologram.show-radius");
         useCustomFont = plugin.getConfig().getBoolean("custom-font.enabled");
+        showRadius = plugin.getConfig().getDouble("hologram.show-radius");
+        minDamage = plugin.getConfig().getDouble("hologram.min-damage");
 
         String spaceChar = plugin.getConfig().getString("custom-font.space");
         space = spaceChar != null && !spaceChar.isEmpty() ? spaceChar.charAt(0) : ' ';
@@ -48,6 +51,7 @@ public class ConfigManager {
             String critChar = plugin.getConfig().getString("custom-font.crit." + i);
             String skillChar = plugin.getConfig().getString("custom-font.skill." + i);
             String elementChar = plugin.getConfig().getString("custom-font.element." + i);
+            String dotChar = plugin.getConfig().getString("custom-font.dot." + i);
 
             if (normalChar != null && !normalChar.isEmpty()) normalCharacters[i] = normalChar.charAt(0);
             else normalCharacters[i] = (char) ('0' + i);
@@ -60,6 +64,9 @@ public class ConfigManager {
 
             if (elementChar != null && !elementChar.isEmpty()) elementCharacters[i] = elementChar.charAt(0);
             else elementCharacters[i] = (char) ('0' + i);
+
+            if (dotChar != null && !dotChar.isEmpty()) dotCharacters[i] = dotChar.charAt(0);
+            else dotCharacters[i] = (char) ('0' + i);
         }
     }
 }
