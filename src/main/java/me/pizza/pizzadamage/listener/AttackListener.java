@@ -27,8 +27,9 @@ public class AttackListener implements Listener {
 
     @EventHandler
     public void onAttack(AttackUnregisteredEvent ev) {
-        // Listen only when attacker is a player for better performance
-        if (!ev.getAttack().hasAttacker() || !ev.getAttack().isPlayer()) return;
+        // Should listen only when attacker is a player for better performance
+        if (plugin.getConfigManager().isOnlyPlayer() && (!ev.getAttack().hasAttacker() || !ev.getAttack().isPlayer()))
+            return;
 
         // Check if there are players who can see the hologram
         List<Player> players = (plugin.getConfigManager().isShowToAllPlayers())
@@ -55,6 +56,10 @@ public class AttackListener implements Listener {
                 builder.append(text);
             }
             builder.append(plugin.getFontManager().toCustomFont(damage, FontType.ELEMENT));
+        }
+
+        else if (meta.hasType(DamageType.DOT)) {
+            builder.append(plugin.getFontManager().toCustomFont(damage, FontType.DOT));
         }
 
         else if (meta.hasType(DamageType.SKILL)) {

@@ -2,6 +2,9 @@ hologram:
   # ดาเมจขั้นต่ำ
   min-damage: 1
 
+  # โชว์ hologram เฉพาะเมื่อผู้โจมตีเป็นผู้เล่นหรือไม่
+  only-player: true
+
   # โชว์ hologram ให้ทุกคนในระยะที่กำหนด
   show-to-all: true
   show-radius: 10

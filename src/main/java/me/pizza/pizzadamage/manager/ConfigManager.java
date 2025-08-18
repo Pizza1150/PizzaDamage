@@ -19,6 +19,7 @@ public class ConfigManager {
     private final char[] elementCharacters = new char[10];
     private final char[] dotCharacters = new char[10];
 
+    private boolean onlyPlayer;
     private boolean showToAllPlayers;
     private boolean useCustomFont;
 
@@ -38,6 +39,7 @@ public class ConfigManager {
 
         plugin.reloadConfig();
 
+        onlyPlayer = plugin.getConfig().getBoolean("hologram.only-player");
         showToAllPlayers = plugin.getConfig().getBoolean("hologram.show-to-all");
         useCustomFont = plugin.getConfig().getBoolean("custom-font.enabled");
         showRadius = plugin.getConfig().getDouble("hologram.show-radius");

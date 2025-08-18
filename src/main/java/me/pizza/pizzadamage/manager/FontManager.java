@@ -20,10 +20,10 @@ public class FontManager {
                 int digit = c - '0';
 
                 switch (fontType) {
-                    case CRIT -> builder.append(config.getCritCharacters()[digit]);
-                    case SKILL -> builder.append(config.getSkillCharacters()[digit]);
                     case ELEMENT -> builder.append(config.getElementCharacters()[digit]);
                     case DOT -> builder.append(config.getDotCharacters()[digit]);
+                    case SKILL -> builder.append(config.getSkillCharacters()[digit]);
+                    case CRIT -> builder.append(config.getCritCharacters()[digit]);
                     default -> builder.append(config.getNormalCharacters()[digit]);
                 }
                 
@@ -34,10 +34,10 @@ public class FontManager {
     }
 
     public enum FontType {
-        NORMAL, 
-        CRIT, 
-        SKILL,
         ELEMENT,
-        DOT
+        DOT,
+        SKILL,
+        CRIT,
+        NORMAL
     }
 }
