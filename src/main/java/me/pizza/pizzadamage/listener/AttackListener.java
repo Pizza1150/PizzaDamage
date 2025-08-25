@@ -55,10 +55,10 @@ public class AttackListener implements Listener {
                 String text = (i == elements.size() - 1) ? "&f" : " ";
                 builder.append(text);
             }
-            builder.append(plugin.getFontManager().toCustomFont(damage, FontType.ELEMENT));
+//            builder.append(plugin.getFontManager().toCustomFont(damage, FontType.ELEMENT));
         }
 
-        else if (meta.hasType(DamageType.DOT)) {
+        if (meta.hasType(DamageType.DOT)) {
             builder.append(plugin.getFontManager().toCustomFont(damage, FontType.DOT));
         }
 

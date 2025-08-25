@@ -7,6 +7,7 @@ depend: [MythicLib, packetevents]
 
 commands:
   pizzadamage:
+    aliases: pd
     permission: pizzadamage.admin
 
 permissions:
