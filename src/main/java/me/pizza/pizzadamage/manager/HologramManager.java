@@ -1,14 +1,5 @@
 package me.pizza.pizzadamage.manager;
 
-import io.github.retrooper.packetevents.util.SpigotConversionUtil;
-import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
-import lombok.Getter;
-import me.pizza.pizzadamage.PizzaDamage;
-import me.pizza.pizzadamage.api.event.HologramSpawnEvent;
-import me.pizza.pizzadamage.data.HologramData;
-import me.pizza.pizzadamage.util.LocationUtil;
-import net.kyori.adventure.text.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -19,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
@@ -28,6 +20,15 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDe
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityTeleport;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
+
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
+import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
+import lombok.Getter;
+import me.pizza.pizzadamage.PizzaDamage;
+import me.pizza.pizzadamage.api.event.HologramSpawnEvent;
+import me.pizza.pizzadamage.data.HologramData;
+import me.pizza.pizzadamage.util.LocationUtil;
+import net.kyori.adventure.text.Component;
 
 public class HologramManager {
 

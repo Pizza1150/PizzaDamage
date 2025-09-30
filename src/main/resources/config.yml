@@ -1,4 +1,8 @@
 hologram:
+  # entity ชนิดไหนบ้าง ที่จะไม่แสดง hologram
+  blacklist-entity-type:
+  - COW
+
   # ดาเมจขั้นต่ำ
   min-damage: 1
 

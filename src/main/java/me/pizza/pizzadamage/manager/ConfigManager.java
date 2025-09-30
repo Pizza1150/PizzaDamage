@@ -5,6 +5,10 @@ import me.pizza.pizzadamage.PizzaDamage;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.bukkit.entity.EntityType;
 
 @Getter
 public class ConfigManager {
@@ -12,6 +16,8 @@ public class ConfigManager {
     private final PizzaDamage plugin;
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#");
+
+    private final Set<EntityType> blacklistEntityType = new HashSet<>();
 
     private final char[] normalCharacters = new char[10];
     private final char[] critCharacters = new char[10];
@@ -47,6 +53,15 @@ public class ConfigManager {
 
         String spaceChar = plugin.getConfig().getString("custom-font.space");
         space = spaceChar != null && !spaceChar.isEmpty() ? spaceChar.charAt(0) : ' ';
+
+        for (String type : plugin.getConfig().getStringList("hologram.blacklist-entity-type")) {
+            try {
+                EntityType entityType = EntityType.valueOf(type);
+                blacklistEntityType.add(entityType);
+            } catch (IllegalArgumentException e) {
+                plugin.getLogger().warning("Invalid EntityType in config: " + type);
+            }
+        }
 
         for (int i = 0; i < 10; i++) {
             String normalChar = plugin.getConfig().getString("custom-font.normal." + i);
