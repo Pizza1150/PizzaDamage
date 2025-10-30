@@ -1,13 +1,13 @@
 package me.pizza.pizzadamage.api.event;
 
-import lombok.Getter;
-import lombok.Setter;
-import net.kyori.adventure.text.Component;
-
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+
+import lombok.Getter;
+import lombok.Setter;
+import net.kyori.adventure.text.Component;
 
 public class HologramSpawnEvent extends Event implements Cancellable {
 
@@ -20,6 +20,7 @@ public class HologramSpawnEvent extends Event implements Cancellable {
     private Component text;
 
     public HologramSpawnEvent(Component text) {
+        super(true);
         this.text = text;
     }
 

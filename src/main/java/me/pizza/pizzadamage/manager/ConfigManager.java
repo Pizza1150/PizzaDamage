@@ -1,14 +1,14 @@
 package me.pizza.pizzadamage.manager;
 
-import lombok.Getter;
-import me.pizza.pizzadamage.PizzaDamage;
-
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.EntityType;
+
+import lombok.Getter;
+import me.pizza.pizzadamage.PizzaDamage;
 
 @Getter
 public class ConfigManager {
@@ -19,11 +19,11 @@ public class ConfigManager {
 
     private final Set<EntityType> blacklistEntityType = new HashSet<>();
 
-    private final char[] normalCharacters = new char[10];
-    private final char[] critCharacters = new char[10];
-    private final char[] skillCharacters = new char[10];
-    private final char[] elementCharacters = new char[10];
-    private final char[] dotCharacters = new char[10];
+    private final String[] normalCharacters = new String[10];
+    private final String[] critCharacters = new String[10];
+    private final String[] skillCharacters = new String[10];
+    private final String[] elementCharacters = new String[10];
+    private final String[] dotCharacters = new String[10];
 
     private boolean onlyPlayer;
     private boolean showToAllPlayers;
@@ -32,7 +32,7 @@ public class ConfigManager {
     private double showRadius;
     private double minDamage;
 
-    private char space;
+    private String space;
 
     public ConfigManager(PizzaDamage plugin) {
         this.plugin = plugin;
@@ -52,8 +52,9 @@ public class ConfigManager {
         minDamage = plugin.getConfig().getDouble("hologram.min-damage");
 
         String spaceChar = plugin.getConfig().getString("custom-font.space");
-        space = spaceChar != null && !spaceChar.isEmpty() ? spaceChar.charAt(0) : ' ';
+        space = (spaceChar != null && !spaceChar.isEmpty()) ? spaceChar : " ";
 
+        blacklistEntityType.clear();
         for (String type : plugin.getConfig().getStringList("hologram.blacklist-entity-type")) {
             try {
                 EntityType entityType = EntityType.valueOf(type);
@@ -64,26 +65,16 @@ public class ConfigManager {
         }
 
         for (int i = 0; i < 10; i++) {
-            String normalChar = plugin.getConfig().getString("custom-font.normal." + i);
-            String critChar = plugin.getConfig().getString("custom-font.crit." + i);
-            String skillChar = plugin.getConfig().getString("custom-font.skill." + i);
-            String elementChar = plugin.getConfig().getString("custom-font.element." + i);
-            String dotChar = plugin.getConfig().getString("custom-font.dot." + i);
-
-            if (normalChar != null && !normalChar.isEmpty()) normalCharacters[i] = normalChar.charAt(0);
-            else normalCharacters[i] = (char) ('0' + i);
-
-            if (critChar != null && !critChar.isEmpty()) critCharacters[i] = critChar.charAt(0);
-            else critCharacters[i] = (char) ('0' + i);
-
-            if (skillChar != null && !skillChar.isEmpty()) skillCharacters[i] = skillChar.charAt(0);
-            else skillCharacters[i] = (char) ('0' + i);
-
-            if (elementChar != null && !elementChar.isEmpty()) elementCharacters[i] = elementChar.charAt(0);
-            else elementCharacters[i] = (char) ('0' + i);
-
-            if (dotChar != null && !dotChar.isEmpty()) dotCharacters[i] = dotChar.charAt(0);
-            else dotCharacters[i] = (char) ('0' + i);
+            normalCharacters[i] = getConfigStringOrDefault("custom-font.normal." + i, String.valueOf(i));
+            critCharacters[i] = getConfigStringOrDefault("custom-font.crit." + i, String.valueOf(i));
+            skillCharacters[i] = getConfigStringOrDefault("custom-font.skill." + i, String.valueOf(i));
+            elementCharacters[i] = getConfigStringOrDefault("custom-font.element." + i, String.valueOf(i));
+            dotCharacters[i] = getConfigStringOrDefault("custom-font.dot." + i, String.valueOf(i));
         }
+    }
+
+    private String getConfigStringOrDefault(String path, String defaultValue) {
+        String value = plugin.getConfig().getString(path);
+        return (value != null && !value.isEmpty()) ? value : defaultValue;
     }
 }

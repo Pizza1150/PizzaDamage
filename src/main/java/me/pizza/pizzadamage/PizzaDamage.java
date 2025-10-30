@@ -1,5 +1,7 @@
 package me.pizza.pizzadamage;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import lombok.Getter;
 import me.pizza.pizzadamage.command.CoreCommand;
 import me.pizza.pizzadamage.listener.AttackListener;
@@ -7,8 +9,6 @@ import me.pizza.pizzadamage.listener.PlayerListener;
 import me.pizza.pizzadamage.manager.ConfigManager;
 import me.pizza.pizzadamage.manager.FontManager;
 import me.pizza.pizzadamage.manager.HologramManager;
-
-import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 public final class PizzaDamage extends JavaPlugin {
