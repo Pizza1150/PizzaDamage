@@ -1,14 +1,15 @@
 package me.pizza.pizzadamage;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
-import me.pizza.pizzadamage.command.CoreCommand;
+import me.pizza.pizzadamage.command.PizzaDamageCommand;
 import me.pizza.pizzadamage.listener.AttackListener;
 import me.pizza.pizzadamage.listener.PlayerListener;
 import me.pizza.pizzadamage.manager.ConfigManager;
 import me.pizza.pizzadamage.manager.FontManager;
 import me.pizza.pizzadamage.manager.HologramManager;
+
+import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 public final class PizzaDamage extends JavaPlugin {
@@ -30,7 +31,9 @@ public final class PizzaDamage extends JavaPlugin {
         configManager = new ConfigManager(this);
         fontManager = new FontManager(configManager);
 
-        getCommand("pizzadamage").setExecutor(new CoreCommand());
+        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+            commands.registrar().register(new PizzaDamageCommand().createCommand());
+        });
 
         getServer().getPluginManager().registerEvents(new AttackListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
