@@ -5,5 +5,6 @@ import java.util.List;
 import com.github.retrooper.packetevents.protocol.player.User;
 
 public record HologramData(
-    int entityId,
-    List<User> users) {}
+        int entityId,
+        List<User> users) {
+}

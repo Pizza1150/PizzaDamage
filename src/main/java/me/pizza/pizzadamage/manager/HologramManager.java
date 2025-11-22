@@ -39,13 +39,13 @@ public class HologramManager {
 
         Bukkit.getScheduler().runTaskAsynchronously(PizzaDamage.getPlugin(), () -> {
             int entityId = SpigotReflectionUtil.generateEntityId();
-        
+
             List<User> users = new ArrayList<>();
             for (Player player : players) {
                 User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
                 if (user != null) users.add(user); // Prevent adding NPC
             }
-            
+
             if (users.isEmpty()) return;
 
             HologramSpawnEvent event = new HologramSpawnEvent(text);

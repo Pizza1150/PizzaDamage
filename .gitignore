@@ -1,9 +1,13 @@
 # Maven
 /target/
 
-# InteliJ IDEA
+# IntelliJ IDEA
 .idea/
 *.iml
 
-# MacOS
-.Ds_Store
+# VS Code
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store

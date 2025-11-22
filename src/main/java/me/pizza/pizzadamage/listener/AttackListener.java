@@ -1,12 +1,5 @@
 package me.pizza.pizzadamage.listener;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-
 import io.lumine.mythic.lib.api.event.AttackUnregisteredEvent;
 import io.lumine.mythic.lib.damage.DamageMetadata;
 import io.lumine.mythic.lib.damage.DamageType;
@@ -16,6 +9,13 @@ import me.pizza.pizzadamage.manager.FontManager.FontType;
 import me.pizza.pizzadamage.util.LocationUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class AttackListener implements Listener {
 
@@ -28,8 +28,9 @@ public class AttackListener implements Listener {
     @EventHandler
     public void onAttack(AttackUnregisteredEvent ev) {
         // Should listen only when attacker is a player for better performance
-        if (plugin.getConfigManager().isOnlyPlayer() && (!ev.getAttack().hasAttacker() || !ev.getAttack().isPlayer())) return;
-        
+        if (plugin.getConfigManager().isOnlyPlayer() && (!ev.getAttack().hasAttacker() || !ev.getAttack().isPlayer()))
+            return;
+
         // Is entity blacklist?
         if (plugin.getConfigManager().getBlacklistEntityType().contains(ev.getEntityType())) return;
 
@@ -37,8 +38,8 @@ public class AttackListener implements Listener {
         List<Player> players = (plugin.getConfigManager().isShowToAllPlayers())
                 ? LocationUtil.getPlayersInRadius(ev.getEntity().getLocation(), plugin.getConfigManager().getShowRadius())
                 : (ev.getAttack().isPlayer())
-                        ? List.of(ev.getAttack().getPlayer())
-                        : List.of();
+                ? List.of(ev.getAttack().getPlayer())
+                : List.of();
 
         if (players.isEmpty()) return;
 
@@ -62,13 +63,9 @@ public class AttackListener implements Listener {
 
         if (meta.hasType(DamageType.DOT)) {
             builder.append(plugin.getFontManager().toCustomFont(damage, FontType.DOT));
-        }
-
-        else if (meta.hasType(DamageType.SKILL)) {
+        } else if (meta.hasType(DamageType.SKILL)) {
             builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
-        }
-
-        else {
+        } else {
             FontType fontType = meta.isWeaponCriticalStrike() ? FontType.CRIT : FontType.NORMAL;
             builder.append(plugin.getFontManager().toCustomFont(damage, fontType));
         }

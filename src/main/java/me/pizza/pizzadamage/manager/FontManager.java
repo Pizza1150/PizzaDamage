@@ -26,7 +26,7 @@ public class FontManager {
                     case CRIT -> builder.append(config.getCritCharacters()[digit]);
                     default -> builder.append(config.getNormalCharacters()[digit]);
                 }
-                
+
                 firstDigitFound = true;
             } else builder.append(c);
         }
