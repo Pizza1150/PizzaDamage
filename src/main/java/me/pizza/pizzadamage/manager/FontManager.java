@@ -24,6 +24,7 @@ public class FontManager {
                     case DOT -> builder.append(config.getDotCharacters()[digit]);
                     case SKILL -> builder.append(config.getSkillCharacters()[digit]);
                     case CRIT -> builder.append(config.getCritCharacters()[digit]);
+                    case CRIT_SKILL -> builder.append(config.getCritSkillCharacters()[digit]);
                     default -> builder.append(config.getNormalCharacters()[digit]);
                 }
 
@@ -37,6 +38,7 @@ public class FontManager {
         ELEMENT,
         DOT,
         SKILL,
+        CRIT_SKILL,
         CRIT,
         NORMAL
     }

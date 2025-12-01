@@ -58,13 +58,13 @@ public class AttackListener implements Listener {
                 String text = (i == elements.size() - 1) ? "&f" : " ";
                 builder.append(text);
             }
-//            builder.append(plugin.getFontManager().toCustomFont(damage, FontType.ELEMENT));
         }
 
         if (meta.hasType(DamageType.DOT)) {
             builder.append(plugin.getFontManager().toCustomFont(damage, FontType.DOT));
         } else if (meta.hasType(DamageType.SKILL)) {
-            builder.append(plugin.getFontManager().toCustomFont(damage, FontType.SKILL));
+            FontType fontType = meta.isSkillCriticalStrike() ? FontType.CRIT_SKILL : FontType.SKILL;
+            builder.append(plugin.getFontManager().toCustomFont(damage, fontType));
         } else {
             FontType fontType = meta.isWeaponCriticalStrike() ? FontType.CRIT : FontType.NORMAL;
             builder.append(plugin.getFontManager().toCustomFont(damage, fontType));

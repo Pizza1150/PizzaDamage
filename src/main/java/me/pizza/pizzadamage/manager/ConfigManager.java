@@ -1,14 +1,14 @@
 package me.pizza.pizzadamage.manager;
 
+import lombok.Getter;
+import me.pizza.pizzadamage.PizzaDamage;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.EntityType;
-
-import lombok.Getter;
-import me.pizza.pizzadamage.PizzaDamage;
 
 @Getter
 public class ConfigManager {
@@ -22,6 +22,7 @@ public class ConfigManager {
     private final String[] normalCharacters = new String[10];
     private final String[] critCharacters = new String[10];
     private final String[] skillCharacters = new String[10];
+    private final String[] critSkillCharacters = new String[10];
     private final String[] elementCharacters = new String[10];
     private final String[] dotCharacters = new String[10];
 
@@ -68,6 +69,7 @@ public class ConfigManager {
             normalCharacters[i] = getConfigStringOrDefault("custom-font.normal." + i, String.valueOf(i));
             critCharacters[i] = getConfigStringOrDefault("custom-font.crit." + i, String.valueOf(i));
             skillCharacters[i] = getConfigStringOrDefault("custom-font.skill." + i, String.valueOf(i));
+            critSkillCharacters[i] = getConfigStringOrDefault("custom-font.crit-skill." + i, String.valueOf(i));
             elementCharacters[i] = getConfigStringOrDefault("custom-font.element." + i, String.valueOf(i));
             dotCharacters[i] = getConfigStringOrDefault("custom-font.dot." + i, String.valueOf(i));
         }

@@ -22,6 +22,13 @@ public final class PizzaDamage extends JavaPlugin {
     private FontManager fontManager;
 
     @Override
+    public void onLoad() {
+        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+            commands.registrar().register(new PizzaDamageCommand().createCommand());
+        });
+    }
+
+    @Override
     public void onEnable() {
         saveDefaultConfig();
 
@@ -30,10 +37,6 @@ public final class PizzaDamage extends JavaPlugin {
         hologramManager = new HologramManager();
         configManager = new ConfigManager(this);
         fontManager = new FontManager(configManager);
-
-        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
-            commands.registrar().register(new PizzaDamageCommand().createCommand());
-        });
 
         getServer().getPluginManager().registerEvents(new AttackListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
